@@ -12,12 +12,15 @@ from nltk.corpus import stopwords
 import string
 import seaborn as sns
 
-# Download stopwords for text preprocessing
-nltk.download('stopwords')
+# Ensure stopwords are available without downloading
+try:
+    stop_words = set(stopwords.words('english'))
+except LookupError:
+    nltk.download('stopwords')
+    stop_words = set(stopwords.words('english'))
 
 # Function to preprocess text data
 def preprocess_text(text):
-    stop_words = set(stopwords.words('english'))
     text = text.lower()  # Convert text to lowercase
     text = ''.join([char for char in text if char not in string.punctuation])  # Remove punctuation
     text = ' '.join([word for word in text.split() if word not in stop_words])  # Remove stopwords
